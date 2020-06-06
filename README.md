@@ -1,6 +1,9 @@
 # ansible2siteconf
 ansible Konfiguration zu site.conf Generator
 
+Quelle: https://github.com/Neanderfunk/ansible-ffnef/blob/master/group_vars/all
+Ziel: https://github.com/eulenfunk/firmware/tree/v2019.1.x/templates
+
 
 ## Vorbereitung
 
