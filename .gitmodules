@@ -1,0 +1,3 @@
+[submodule "ansible-ffnef"]
+	path = ansible-ffnef
+	url = https://github.com/Neanderfunk/ansible-ffnef.git
