@@ -34,7 +34,7 @@ if __name__ == '__main__':
         #print(list['domaenen'])
 
         for id, values in list['domaenen'].items():
-#            print(id)
+            print("Verarbeite Domaene {}".format(id))
 #            print(values)
 
             name = values['name']
@@ -45,6 +45,7 @@ if __name__ == '__main__':
             v4net = values['ffv4_network']
             v6net = values['ffv6_network']
             fastdpeers = values['fastdpeers']
+                seed = 'ff'+str(43131800000000000000000000000000000000000000000000000000000000+int(id))
 
             if not os.path.exists(THIS_DIR + '/out'):
                 os.mkdir(THIS_DIR + '/out')
@@ -57,7 +58,7 @@ if __name__ == '__main__':
             if not os.path.exists(THIS_DIR + '/out/' + shortname + '-key'):
                 os.mkdir(THIS_DIR + '/out/' + shortname + '-key')
             with open(THIS_DIR + '/out/' + shortname + '-key/site.conf', 'w') as f:
-                f.write(render(True, id, name, shortname, hostname_prefix, seed, v4net, v6net, fastdpeers))
+                f.write(render(True, int(id), name, shortname, hostname_prefix, seed, v4net, v6net, fastdpeers))
 
     # for id, values in domains.items():
     #     names = values['names']
