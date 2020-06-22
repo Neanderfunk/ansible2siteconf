@@ -140,6 +140,7 @@
   mesh_vpn = {
     mtu = 1364,
     enabled = true,
+{% if fastdpeers %}
     fastd = {
       methods = {'salsa2012+umac'},
       groups = {
@@ -156,6 +157,7 @@
         },
       },
     },
+{% endif %}
     bandwidth_limit = {
       enabled = false,
       egress =  2000,

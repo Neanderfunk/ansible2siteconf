@@ -46,6 +46,10 @@ if __name__ == '__main__':
             v6net = values['ffv6_network']
             fastdpeers = values['fastdpeers']
                 seed = 'ff'+str(43131800000000000000000000000000000000000000000000000000000000+int(id))
+            try:
+                fastdpeers = values['fastdpeers']
+            except KeyError:
+                fastdpeers = False
 
             if not os.path.exists(THIS_DIR + '/out'):
                 os.mkdir(THIS_DIR + '/out')
