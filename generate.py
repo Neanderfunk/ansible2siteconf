@@ -8,7 +8,7 @@ import yaml
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-def render(withkey, id, name, shortname, hostname_prefix, seed, v4net, v6net, fastdpeers):
+def render(withkey, id, name, shortname, hostname_prefix, seed, v4net, v6net):
     j2_env = Environment(loader=FileSystemLoader(THIS_DIR),
                          trim_blocks=True)
     return j2_env.get_template('template_site.j2').render(
@@ -20,7 +20,20 @@ def render(withkey, id, name, shortname, hostname_prefix, seed, v4net, v6net, fa
         seed=seed,
         v4net=v4net,
         v6net=v6net,
-        fastdpeers=fastdpeers,
+        #fastdpeers=fastdpeers,
+        lon=lon,
+        lat=lat,
+        zoom=zoom,
+        wifi24channel=wifi24channel,
+        htmode24=htmode24,
+        wifi5channel=wifi5channel,
+        htmode5=htmode5,
+        nextnode4=nextnode4,
+        nextnode6=nextnode6
+
+
+
+
     )
 
 if __name__ == '__main__':
@@ -44,7 +57,19 @@ if __name__ == '__main__':
             seed = 'ff'+str(43131800000000000000000000000000000000000000000000000000000000+id)
             v4net = values['ffv4_network']
             v6net = values['ffv6_network']
-            fastdpeers = values['fastdpeers']
+            #fastdpeers = values['fastdpeers']
+            port = values.get('port', 20000 + id)
+            v6prefix = v6net[:-3]
+            lon=values['lon']
+            lat=values['lat']
+            zoom=values['zoom']
+            wifi24channel=values['wifi24channel']
+            htmode24=['htmode24']
+            wifi5channel=['wifi5channel']
+            htmode5=['htmode5']
+            nextnode4=['nextnode4']
+            nextnode6=['nextnode6']
+
 
             if not os.path.exists(THIS_DIR + '/out'):
                 os.mkdir(THIS_DIR + '/out')
@@ -52,12 +77,12 @@ if __name__ == '__main__':
             if not os.path.exists(THIS_DIR + '/out/' + shortname):
                 os.mkdir(THIS_DIR + '/out/' + shortname)
             with open(THIS_DIR + '/out/' + shortname + '/site.conf', 'w') as f:
-                f.write(render(False, id, name, shortname, hostname_prefix, seed, v4net, v6net, fastdpeers))
+                f.write(render(False, id, name, shortname, hostname_prefix, seed, v4net, v6net))
 
             if not os.path.exists(THIS_DIR + '/out/' + shortname + '-key'):
                 os.mkdir(THIS_DIR + '/out/' + shortname + '-key')
             with open(THIS_DIR + '/out/' + shortname + '-key/site.conf', 'w') as f:
-                f.write(render(True, id, name, shortname, hostname_prefix, seed, v4net, v6net, fastdpeers))
+                f.write(render(True, id, name, shortname, hostname_prefix, seed, v4net, v6net))
 
     # for id, values in domains.items():
     #     names = values['names']
