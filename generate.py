@@ -37,15 +37,19 @@ if __name__ == '__main__':
             print("Verarbeite Domaene {}".format(id))
 #            print(values)
 
-            name = values['name']
-            shortname = values['shortname']
-            hostname_prefix = values['hostname_prefix']
-            #community = values['community']
-            seed = 'ff'+str(43131800000000000000000000000000000000000000000000000000000000+id)
-            v4net = values['ffv4_network']
-            v6net = values['ffv6_network']
-            fastdpeers = values['fastdpeers']
+            try:
+                name = values['name']
+                shortname = values['shortname']
+                hostname_prefix = values['hostname_prefix']
+                #community = values['community']
                 seed = 'ff'+str(43131800000000000000000000000000000000000000000000000000000000+int(id))
+                v4net = values['ffv4_network']
+                v6net = values['ffv6_network']
+            except KeyError as err:
+                print("Variable {} fehlt in der ansible group_vars/all bei {}".format(err, id))
+                print("Setze generation aus.")
+                continue
+
             try:
                 fastdpeers = values['fastdpeers']
             except KeyError:
