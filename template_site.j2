@@ -49,7 +49,7 @@
   setup_mode = {
     skip = false,
   },
-  authorized_keys = { '', },
+  authorized_keys = { '',},
 {% endif %}
 
   opkg = {
@@ -111,7 +111,7 @@
       'nn',
     },
     -- anycast IPs of all nodes
-{% if nextnode %}
+{% if nextnode4 %}
     ip4 = '{{ nextnode4 }}',
     ip6 = '{{ nextnode6 }}',
 {% else %}

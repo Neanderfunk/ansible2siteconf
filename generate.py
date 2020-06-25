@@ -8,7 +8,7 @@ import yaml
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-def render(withkey, id, name, shortname, hostname_prefix, seed, v4net, v6net):
+def render(withkey, id, name, shortname, hostname_prefix, seed, v4net, v6net, lon, lat, zoom, wifi24channel, htmode24,wifi5channel,htmode5, nextnode4, nextnode6):
     j2_env = Environment(loader=FileSystemLoader(THIS_DIR),
                          trim_blocks=True)
     return j2_env.get_template('template_site.j2').render(
@@ -30,10 +30,6 @@ def render(withkey, id, name, shortname, hostname_prefix, seed, v4net, v6net):
         htmode5=htmode5,
         nextnode4=nextnode4,
         nextnode6=nextnode6
-
-
-
-
     )
 
 if __name__ == '__main__':
@@ -77,12 +73,12 @@ if __name__ == '__main__':
             if not os.path.exists(THIS_DIR + '/out/' + shortname):
                 os.mkdir(THIS_DIR + '/out/' + shortname)
             with open(THIS_DIR + '/out/' + shortname + '/site.conf', 'w') as f:
-                f.write(render(False, id, name, shortname, hostname_prefix, seed, v4net, v6net))
+                f.write(render(False, id, name, shortname, hostname_prefix, seed, v4net, v6net, lon, lat, zoom, wifi24channel, htmode24, wifi5channel, htmode5, nextnode4, nextnode6))
 
             if not os.path.exists(THIS_DIR + '/out/' + shortname + '-key'):
                 os.mkdir(THIS_DIR + '/out/' + shortname + '-key')
             with open(THIS_DIR + '/out/' + shortname + '-key/site.conf', 'w') as f:
-                f.write(render(True, id, name, shortname, hostname_prefix, seed, v4net, v6net))
+                f.write(render(True, id, name, shortname, hostname_prefix, seed, v4net, v6net, lon, lat, zoom, wifi24channel, htmode24, wifi5channel, htmode5, nextnode4, nextnode6))
 
     # for id, values in domains.items():
     #     names = values['names']
