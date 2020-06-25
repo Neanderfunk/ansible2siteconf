@@ -62,12 +62,12 @@ if __name__ == '__main__':
                 lat=values['lat']
                 zoom=values['zoom']
                 wifi24channel=values['wifi24channel']
-                htmode24=['htmode24']
-                wifi5channel=['wifi5channel']
-                htmode5=['htmode5']
-                nextnode4=['nextnode4']
-                nextnode6=['nextnode6']
-                authorized_keys=['authorized_keys']
+                htmode24=values['htmode24']
+                wifi5channel=values['wifi5channel']
+                htmode5=values['htmode5']
+                nextnode4=values['nextnode4']
+                nextnode6=values['nextnode6']
+                authorized_keys=values['authorized_keys']
             except KeyError as err:
                 print("Variable {} fehlt in der ansible group_vars/all bei {}".format(err, id))
                 print("Setze generation aus.")
