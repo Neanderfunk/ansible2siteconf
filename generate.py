@@ -72,8 +72,12 @@ if __name__ == '__main__':
                     htmode5=values['htmode5']
                 except KeyError:
                     htmode5="HT40"
-                nextnode4=values['nextnode4']
-                nextnode6=values['nextnode6']
+                try:
+                    nextnode4=values['nextnode4']
+                    nextnode6=values['nextnode6']
+                except KeyError:
+                    nextnode4=False
+                    nextnode6=False
                 try:
                     authorized_keys=values['authorized_keys']
                 except KeyError:
