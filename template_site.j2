@@ -41,7 +41,7 @@
     skip = true,
   },
   authorized_keys = {
-    {% for code, sshkey in authorized_keys.items() %}
+    {% for sshkey in authorized_keys %}
       '{{ sshkey }}',
     {% endfor %}
   },
@@ -117,7 +117,7 @@
 {% else %}
     ip4 = '10.{{ id }}.0.1',
     ip6 = '2a03:2260:300e:{{ id }}00::1',
-{% endif %}  
+{% endif %}
   },
 
   mesh_on_lan = true,
@@ -140,9 +140,27 @@
   mesh_vpn = {
     mtu = 1364,
     enabled = true,
-    tunneldigger = {
-      brokers = {'ganymed.ffnef.de:{{ port }}','kallisto.ffnef.de:{{ port }}','amalthea.ffnef.de:{{ port }}','himalia.ffnef.de:{{ port }}'},
-    },
+{% if fastdpeers %}
+        fastd = {
+          methods = {'salsa2012+umac'},
+          groups = {
+            backbone = {
+              limit = 1,
+              peers = {
+{% for code, key in fastdpeers.items() %}
+                fastd{{ code }}_ffnef_{{ shortname }}_ffnef_de = {
+                  key = '{{ key }}',
+                  remotes = {'"fastd{{ code }}.ffnef-{{ shortname }}.ffnef.de" port 63976'},
+                },
+{% endfor %}
+              },
+            },
+          },
+{% else %}
+      tunneldigger = {
+        brokers = {'ganymed.ffnef.de:{{ port }}','kallisto.ffnef.de:{{ port }}','amalthea.ffnef.de:{{ port }}','himalia.ffnef.de:{{ port }}'},
+      },
+{% endif %}
     bandwidth_limit = {
       enabled = false,
       egress =  1000,
