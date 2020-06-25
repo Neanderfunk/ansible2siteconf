@@ -8,6 +8,8 @@ Ziel: https://github.com/eulenfunk/firmware/tree/v2019.1.x/templates
 
 ## Vorbereitung
 
+**python >= 3.8 wird benötigt** 
+
 Abhängigkeit:
 
 ```bash
