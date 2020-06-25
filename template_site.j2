@@ -117,7 +117,7 @@
     ip6 = '{{ nextnode6 }}',
 {% else %}
     ip4 = '10.{{ id }}.0.1',
-    ip6 = '2a03:2260:300e:{{ id }}00::1',
+    ip6 = '{{ v6net[:-5] }}::1',
 {% endif %}
   },
 
@@ -135,6 +135,7 @@
           -- The default class 20 is based on the link quality (TQ) only,
           -- class 1 is calculated from both the TQ and the announced bandwidth
           gw_sel_class = 1,
+          routing_algo = 'BATMAN_IV',
       },
   },
 
@@ -183,7 +184,7 @@
 {% if nextnode6 %}
           'http://[{{ nextnode6[:-1] }}733]/firmware/stable/{{ idfull }}-{{ shortname }}/sysupgrade',
 {% else %}
-          'http://[2a03:2260:300e:{{ id }}00::733]/firmware/stable/{{ idfull }}-{{ shortname }}/sysupgrade',
+          'http://[{{ v6net[:-5] }}::733]/firmware/stable/{{ idfull }}-{{ shortname }}/sysupgrade',
 {% endif %}
         },
         good_signatures = 3,
@@ -207,7 +208,7 @@
 {% if nextnode6 %}
           'http://[{{ nextnode6[:-1] }}733]/firmware/beta/{{ idfull }}-{{ shortname }}/sysupgrade',
 {% else %}
-          'http://[2a03:2260:300e:{{ id }}00::733]/firmware/beta/{{ idfull }}-{{ shortname }}/sysupgrade',
+          'http://[{{ v6net[:-5] }}::733]/firmware/beta/{{ idfull }}-{{ shortname }}/sysupgrade',
 {% endif %}
         },
         good_signatures = 1,
@@ -231,7 +232,7 @@
 {% if nextnode6 %}
           'http://[{{ nextnode6[:-1] }}733]/firmware/broken/{{ idfull }}-{{ shortname }}/sysupgrade',
 {% else %}
-          'http://[2a03:2260:300e:{{ id }}00::733]/firmware/broken/{{ idfull }}-{{ shortname }}/sysupgrade',
+          'http://[{{ v6net[:-5] }}::733]/firmware/broken/{{ idfull }}-{{ shortname }}/sysupgrade',
 {% endif %}
         },
         good_signatures = 1,
@@ -258,7 +259,7 @@
   },
   dns = {
     cacheentries = 1024,
-    servers = { '2a03:2260:300e:{{ id }}00::3','2620:fe::10', '2001:4860:4860::8844', '2001:4860:4860::8888', },
+    servers = { '{{ v6net[:-5] }}::3','2620:fe::10', '2001:4860:4860::8844', '2001:4860:4860::8888', },
   },
 
   ssid_changer = {
