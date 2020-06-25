@@ -1,3 +1,4 @@
+{% set idfull =  '%02d' | format(id|int)  %}
 -- Configuration Template for Neanderfunk / Eulenfunk - Gluon 2019.1.x
 {
   hostname_prefix = '{{ hostname_prefix }}',
@@ -176,10 +177,14 @@
       stable = {
         name = 'stable',
         mirrors = {
-          'http://firmware.{{ id }}-{{ shortname }}.ffnef.de/firmware/stable//sysupgrade',
-          'http://firmware.{{ id }}-{{ shortname }}.ffnef/firmware/stable/{{ id }}-{{ shortname }}/sysupgrade',
-          'http://firmware.ffnef.de/firmware/stable/{{ id }}-{{ shortname }}/sysupgrade',
-          'http://[{{ v6prefix }}::733]/firmware/stable/ffnef-{{ shortname }}/sysupgrade',
+          'http://firmware.{{ idfull }}-{{ shortname }}.ffnef.de/firmware/stable/{{ idfull }}-{{ shortname }}/sysupgrade',
+          'http://firmware.{{ idfull }}-{{ shortname }}.ffnef/firmware/stable/{{ idfull }}-{{ shortname }}/sysupgrade',
+          'http://firmware.ffnef.de/firmware/stable/{{ idfull }}-{{ shortname }}/sysupgrade',
+{% if nextnode6 %}
+          'http://[{{ nextnode6[:-1] }}733]/firmware/stable/{{ idfull }}-{{ shortname }}/sysupgrade',
+{% else %}
+          'http://[2a03:2260:300e:{{ id }}00::733]/firmware/stable/{{ idfull }}-{{ shortname }}/sysupgrade',
+{% endif %}
         },
         good_signatures = 3,
         pubkeys = {
@@ -196,10 +201,14 @@
       beta = {
         name = 'beta',
         mirrors = {
-           'http://firmware.ffnef-{{ shortname }}.ffnef.de/firmware/beta/ffnef-{{ shortname }}/sysupgrade',
-          'http://firmware.ffnef-{{ shortname }}.ffnef/firmware/beta/ffnef-{{ shortname }}/sysupgrade',
-          'http://firmware.ffnef.de/firmware/beta/ffnef-{{ shortname }}/sysupgrade',
-          'http://[2a03:2260:300e:1300::733]/firmware/beta/ffnef-{{ shortname }}/sysupgrade',
+           'http://firmware.ffnef-{{ shortname }}.ffnef.de/firmware/beta/{{ idfull }}-{{ shortname }}/sysupgrade',
+          'http://firmware.ffnef-{{ shortname }}.ffnef/firmware/beta/{{ idfull }}-{{ shortname }}/sysupgrade',
+          'http://firmware.ffnef.de/firmware/beta/{{ idfull }}-{{ shortname }}/sysupgrade',
+{% if nextnode6 %}
+          'http://[{{ nextnode6[:-1] }}733]/firmware/beta/{{ idfull }}-{{ shortname }}/sysupgrade',
+{% else %}
+          'http://[2a03:2260:300e:{{ id }}00::733]/firmware/beta/{{ idfull }}-{{ shortname }}/sysupgrade',
+{% endif %}
         },
         good_signatures = 1,
         pubkeys = {
@@ -216,10 +225,14 @@
       experimental = {
         name = 'experimental',
         mirrors = {
-          'http://firmware.ffnef-{{ shortname }}.ffnef.de/firmware/broken/ffnef-{{ shortname }}/sysupgrade',
-          'http://firmware.ffnef-{{ shortname }}.ffnef/firmware/broken/ffnef-{{ shortname }}/sysupgrade',
-          'http://firmware.ffnef.de/firmware/broken/ffnef-{{ shortname }}/images/sysupgrade',
-          'http://[2a03:2260:300e:1300::733]/firmware/broken/ffnef-{{ shortname }}/sysupgrade',
+          'http://firmware.ffnef-{{ shortname }}.ffnef.de/firmware/broken/{{ idfull }}-{{ shortname }}/sysupgrade',
+          'http://firmware.ffnef-{{ shortname }}.ffnef/firmware/broken/{{ idfull }}-{{ shortname }}/sysupgrade',
+          'http://firmware.ffnef.de/firmware/broken/{{ idfull }}-{{ shortname }}/images/sysupgrade',
+{% if nextnode6 %}
+          'http://[{{ nextnode6[:-1] }}733]/firmware/broken/{{ idfull }}-{{ shortname }}/sysupgrade',
+{% else %}
+          'http://[2a03:2260:300e:{{ id }}00::733]/firmware/broken/{{ idfull }}-{{ shortname }}/sysupgrade',
+{% endif %}
         },
         good_signatures = 1,
         pubkeys = {
