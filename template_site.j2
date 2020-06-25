@@ -142,25 +142,26 @@
     mtu = 1364,
     enabled = true,
 {% if fastdpeers %}
-        fastd = {
-          methods = {'salsa2012+umac'},
-          groups = {
-            backbone = {
-              limit = 1,
-              peers = {
+    fastd = {
+      methods = {'salsa2012+umac'},
+      groups = {
+        backbone = {
+          limit = 1,
+          peers = {
 {% for code, key in fastdpeers.items() %}
-                fastd{{ code }}_ffnef_{{ shortname }}_ffnef_de = {
-                  key = '{{ key }}',
-                  remotes = {'"fastd{{ code }}.ffnef-{{ shortname }}.ffnef.de" port 63976'},
-                },
-{% endfor %}
-              },
+            fastd{{ code }}_ffnef_{{ shortname }}_ffnef_de = {
+              key = '{{ key }}',
+              remotes = {'"fastd{{ code }}.ffnef-{{ shortname }}.ffnef.de" port 63976'},
             },
+{% endfor %}
           },
-{% else %}
-      tunneldigger = {
-        brokers = {'ganymed.ffnef.de:{{ port }}','kallisto.ffnef.de:{{ port }}','amalthea.ffnef.de:{{ port }}','himalia.ffnef.de:{{ port }}'},
+        },
       },
+    },
+{% else %}
+    tunneldigger = {
+      brokers = {'ganymed.ffnef.de:{{ port }}','kallisto.ffnef.de:{{ port }}','amalthea.ffnef.de:{{ port }}','himalia.ffnef.de:{{ port }}'},
+    },
 {% endif %}
     bandwidth_limit = {
       enabled = false,
@@ -201,7 +202,7 @@
       beta = {
         name = 'beta',
         mirrors = {
-           'http://firmware.ffnef-{{ shortname }}.ffnef.de/firmware/beta/{{ idfull }}-{{ shortname }}/sysupgrade',
+          'http://firmware.ffnef-{{ shortname }}.ffnef.de/firmware/beta/{{ idfull }}-{{ shortname }}/sysupgrade',
           'http://firmware.ffnef-{{ shortname }}.ffnef/firmware/beta/{{ idfull }}-{{ shortname }}/sysupgrade',
           'http://firmware.ffnef.de/firmware/beta/{{ idfull }}-{{ shortname }}/sysupgrade',
 {% if nextnode6 %}
