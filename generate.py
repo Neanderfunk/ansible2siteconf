@@ -6,6 +6,7 @@ from jinja2 import Environment, FileSystemLoader
 import yaml
 # importing shutil module
 import shutil
+import hashlib
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -36,11 +37,11 @@ def render(withkey, id, name, shortname, hostname_prefix, seed, port, v4net, v6n
         authorized_keys=authorized_keys
     )
 
-def copyStatic(keyversion = False):
+def copyStatic(ordnername, keyversion = False):
     key = ''
     if keyversion:
         key = '-key'
-    shutil.copytree(THIS_DIR + '/static/', THIS_DIR + '/out/' + shortname + key + '/' , dirs_exist_ok=True)
+    shutil.copytree(THIS_DIR + '/static/', THIS_DIR + '/out/' + ordnername + key + '/' , dirs_exist_ok=True)
 
 def renderI18n(templatefile, name_adj):
     j2_env = Environment(loader=FileSystemLoader(THIS_DIR),
@@ -49,15 +50,15 @@ def renderI18n(templatefile, name_adj):
         name_adj=name_adj
     )
 
-def copyI18n(name_adj, keyversion = False):
+def copyI18n(ordnername, name_adj, keyversion = False):
     key = ''
     if keyversion:
         key = '-key'
-    if not os.path.exists(THIS_DIR + '/out/' + shortname + key + '/i18n'):
-        os.mkdir(THIS_DIR + '/out/' + shortname + key + '/i18n')
-    with open(THIS_DIR + '/out/' + shortname + key + '/i18n/en.po', 'w') as f:
+    if not os.path.exists(THIS_DIR + '/out/' + ordnername + key + '/i18n'):
+        os.mkdir(THIS_DIR + '/out/' + ordnername + key + '/i18n')
+    with open(THIS_DIR + '/out/' + ordnername + key + '/i18n/en.po', 'w') as f:
         f.write(renderI18n('en.po', name_adj))
-    with open(THIS_DIR + '/out/' + shortname + key + '/i18n/de.po', 'w') as f:
+    with open(THIS_DIR + '/out/' + ordnername + key + '/i18n/de.po', 'w') as f:
         f.write(renderI18n('de.po', name_adj))
 
 if __name__ == '__main__':
@@ -83,7 +84,10 @@ if __name__ == '__main__':
                 shortname = values['shortname']
                 hostname_prefix = values['hostname_prefix']
                 #community = values['community']
-                seed = 'ff'+str(43131800000000000000000000000000000000000000000000000000000000+int(id))
+                #seed = 'ff'+str(43131800000000000000000000000000000000000000000000000000000000+int(id))
+                m = hashlib.sha256()
+                m.update(name.encode('utf-8'))
+                seed = m.hexdigest()
                 v4net = values['ffv4_network']
                 v6net = values['ffv6_network']
                 #fastdpeers = values['fastdpeers']
@@ -127,20 +131,22 @@ if __name__ == '__main__':
             if not os.path.exists(THIS_DIR + '/out'):
                 os.mkdir(THIS_DIR + '/out')
 
-            if not os.path.exists(THIS_DIR + '/out/' + shortname):
-                os.mkdir(THIS_DIR + '/out/' + shortname)
-            with open(THIS_DIR + '/out/' + shortname + '/site.conf', 'w') as f:
+            ordnername = id + '_' + shortname
+
+            if not os.path.exists(THIS_DIR + '/out/' + ordnername):
+                os.mkdir(THIS_DIR + '/out/' + ordnername)
+            with open(THIS_DIR + '/out/' + ordnername + '/site.conf', 'w') as f:
                 f.write(render(False, int(id), name, shortname, hostname_prefix, seed, port, v4net, v6net, lon, lat, zoom, wifi24channel, htmode24, wifi5channel, htmode5, nextnode4, nextnode6, authorized_keys))
-            copyStatic()
-            copyI18n(name_adj)
+            copyStatic(ordnername)
+            copyI18n(ordnername, name_adj)
 
 
-            if not os.path.exists(THIS_DIR + '/out/' + shortname + '-key'):
-                os.mkdir(THIS_DIR + '/out/' + shortname + '-key')
-            with open(THIS_DIR + '/out/' + shortname + '-key/site.conf', 'w') as f:
+            if not os.path.exists(THIS_DIR + '/out/' + ordnername + '-key'):
+                os.mkdir(THIS_DIR + '/out/' + ordnername + '-key')
+            with open(THIS_DIR + '/out/' + ordnername + '-key/site.conf', 'w') as f:
                 f.write(render(True, int(id), name, shortname, hostname_prefix, seed, port, v4net, v6net, lon, lat, zoom, wifi24channel, htmode24, wifi5channel, htmode5, nextnode4, nextnode6, authorized_keys))
-            copyStatic(keyversion = True)
-            copyI18n(name_adj, keyversion = True)
+            copyStatic(ordnername, keyversion = True)
+            copyI18n(ordnername, name_adj, keyversion = True)
 
     # for id, values in domains.items():
     #     names = values['names']
