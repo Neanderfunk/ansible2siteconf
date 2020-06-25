@@ -171,7 +171,7 @@
 
   autoupdater = {
     enabled = 1,
-    branch = 'RELBRANCH',
+    branch = 'stable',
     branches = {
       stable = {
         name = 'stable',
@@ -221,7 +221,7 @@
           'http://firmware.ffnef.de/firmware/broken/ffnef-{{ shortname }}/images/sysupgrade',
           'http://[2a03:2260:300e:1300::733]/firmware/broken/ffnef-{{ shortname }}/sysupgrade',
         },
-        good_signatures = 2,
+        good_signatures = 1,
         pubkeys = {
           'fb919d4adc69bd404f5093ce6b43badf351f9e642ad458406be986baf6096247', -- PetaByteBoy
           'bbc64c35bfc527f193e5551abd4fbef3940c44ebf75bdd829220b39913330d88', -- Jonathan
