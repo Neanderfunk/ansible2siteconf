@@ -62,19 +62,33 @@ def copyI18n(ordnername, name_adj, keyversion = False):
         f.write(renderI18n('de.po', name_adj))
 
 if __name__ == '__main__':
+    ansible_base = ''
+    for ldir in os.listdir('.'):
+        if 'ansible-ff' in ldir:
+            ansible_base = ldir
+    if not ansible_base:
+        raise SystemExit('Could not find a ansible Base. ansible-ff.. \nAborting')
 
-
-    with open(r'ansible-ffnef/group_vars/all') as file:
+    with open(r'{0}/group_vars/all'.format(ansible_base)) as file:
     # The FullLoader parameter handles the conversion from YAML
     # scalar values to Python the dictionary format
         list = yaml.load(file, Loader=yaml.FullLoader)
 
-        #print(list['domaenen'])
+        try:
+            global_admin_list=list['gluon_global_vars']['authorized_admins']
+        except KeyError:
+            global_admin_list=[]
+        try:
+            global_wifi24channel=list['gluon_global_vars']['wifi24channel']
+        except KeyError:
+            global_wifi24channel=1
+        try:
+            global_wifi5channel=list['gluon_global_vars']['wifi5channel']
+        except KeyError:
+            global_wifi5channel=44
 
         for id, values in list['domaenen'].items():
             print("Verarbeite Domaene {}".format(id))
-#            print(values)
-
             try:
                 name = values['name']
                 try:
@@ -96,12 +110,18 @@ if __name__ == '__main__':
                 lon=values['lon']
                 lat=values['lat']
                 zoom=values['zoom']
-                wifi24channel=values['wifi24channel']
+                if 'wifi24channel' in values:
+                    wifi24channel=values['wifi24channel']
+                else:
+                    wifi24channel=global_wifi24channel
                 try:
                     htmode24=values['htmode24']
                 except KeyError:
                     htmode24="HT20"
-                wifi5channel=values['wifi5channel']
+                if 'wifi5channel' in values:
+                    wifi5channel=values['wifi5channel']
+                else:
+                    wifi5channel=global_wifi5channel
                 try:
                     htmode5=values['htmode5']
                 except KeyError:
@@ -113,7 +133,17 @@ if __name__ == '__main__':
                     nextnode4=False
                     nextnode6=False
                 try:
-                    authorized_keys=values['authorized_keys']
+                    authorized_keys=[]
+                    admins=[]
+                    admin_list=[]
+                    if 'authorized_admins' in values:
+                        admin_list.extend(values['authorized_admins'])
+                    admin_list.extend(global_admin_list)
+                    for admin in admin_list:
+                        if admin not in admins:
+                            admins.append(admin)
+                            fo = open("{0}/keyfiles/{1}.pub".format(ansible_base, admin), "r")
+                            authorized_keys.append(fo.read())
                 except KeyError:
                     authorized_keys=[
                     ''
