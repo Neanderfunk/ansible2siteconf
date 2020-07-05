@@ -39,7 +39,9 @@ if __name__ == '__main__':
 
             try:
                 name = values['name']
+                metacom = values['metacom']
                 shortname = values['shortname']
+                shorturlname = shortname.replace("-", "_")
                 hostname_prefix = values['hostname_prefix']
                 #community = values['community']
                 seed = 'ff'+str(43131800000000000000000000000000000000000000000000000000000000+int(id))
