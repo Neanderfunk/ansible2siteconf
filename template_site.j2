@@ -1,11 +1,11 @@
 -- Configuration Template for Neanderfunk / Eulenfunk - Gluon 2019.1.x
 {
   hostname_prefix = '{{ hostname_prefix }}',
-  site_name = 'Freifunk {{ name }} (Neanderfunk)',
-  site_code = 'ffnef-{{ shortname }}',
+  site_name = 'Freifunk {{ name }} ({{ metacommunity }})',
+  site_code = '{{ metacom }}-{{ shortname }}',
 
   -- Must be the same of all nodes in one mesh domain
-  domain_names = { ['ffnef_{{ shortname }}'] = '{{ name }}' },
+  domain_names = { ['{{ metacom }}_{{ shortname }}'] = '{{ name }}' },
   domain_seed = '{{ seed }}',
 
   config_mode = {
@@ -18,10 +18,10 @@
       show_altitude = true,
       osm = {
       center = {
-        lat = 51.330611638,
-        lon = 7.084465027,
+        lat = {{ lat }},
+        lon = {{ lon }},
       },
-      zoom = 12,
+      zoom = {{ zoom }},
        --- openlayers_url = 'https://tiles.ffdus.de/cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
       },
     },
@@ -171,10 +171,10 @@
       stable = {
         name = 'stable',
         mirrors = {
-          'http://firmware.{{ shortname }}.ffnef.de/firmware/stable/{{ metacom }}-{{ shorturlname }}/sysupgrade',
-          'http://firmware.{{ shortname }}.ffnef/firmware/stable/{{ metacom }}-{{ shorturlname }}/sysupgrade',
-          'http://firmware.ffnef.de/firmware/stable/{{ metacom }}-{{ shorturlname }}/sysupgrade',
-          'http://[2a03:2260:300e:1300::733]/firmware/stable/{{ metacom }}-{{ shorturlname }}/sysupgrade',
+          'http://firmware.{{ shortname }}.{{ firmware_backup_fqdn }}/{{ fwpubdir }}stable/{{ metacom }}-{{ shorturlname }}/sysupgrade',
+          'http://firmware.{{ shortname }}.{{ metacom }}/{{ fwpubdir }}stable/{{ metacom }}-{{ shorturlname }}/sysupgrade',
+          'http://{{ firmwarepubfqdn }}/stable/{{ metacom }}-{{ shorturlname }}/sysupgrade',
+          'http://[{{ firmware_ip6 }}]/{{ fwpubdir }}stable/{{ metacom }}-{{ shorturlname }}/sysupgrade',
         },
         good_signatures = 3,
         pubkeys = {
@@ -191,10 +191,10 @@
       beta = {
         name = 'beta',
         mirrors = {
-           'http://firmware.{{ shortname }}.ffnef.de/firmware/beta/{{ metacom }}-{{ shorturlname }}/sysupgrade',
-          'http://firmware.{{ shortname }}.ffnef/firmware/beta/{{ metacom }}-{{ shorturlname }}/sysupgrade',
-          'http://firmware.ffnef.de/firmware/beta/{{ metacom }}-{{ shorturlname }}/sysupgrade',
-          'http://[2a03:2260:300e:1300::733]/firmware/beta/{{ metacom }}-{{ shorturlname }}/sysupgrade',
+           'http://firmware.{{ shortname }}.{{ firmware_backup_fqdn }}/{{ fwpubdir }}beta/{{ metacom }-{{ shorturlname }}/sysupgrade',
+          'http://firmware.{{ shortname }}.{{ metacom }}/{{ fwpubdir }}beta/{{ metacom }}-{{ shorturlname }}/sysupgrade',
+          'http://{{ firmwarepubfqdn }}/beta/{{ metacom }}-{{ shorturlname }}/sysupgrade',
+          'http://[{{ firmware_ip6 }}]/{{ fwpubdir }}beta/{{ metacom }}-{{ shorturlname }}/sysupgrade',
         },
         good_signatures = 1,
         pubkeys = {
@@ -211,10 +211,10 @@
       experimental = {
         name = 'experimental',
         mirrors = {
-          'http://firmware.{{ shortname }}.ffnef.de/firmware/experimental/{{ metacom }}-{{ shorturlname }}/sysupgrade',
-          'http://firmware.{{ shortname }}.ffnef/firmware/experimental/{{ metacom }}-{{ shorturlname }}/sysupgrade',
-          'http://firmware.ffnef.de/firmware/experimental/{{ metacom }}-{{ shorturlname }}/sysupgrade',
-          'http://[2a03:2260:300e:1300::733]/firmware/experimental/{{ metacom }}-{{ shorturlname }}/sysupgrade',
+          'http://firmware.{{ shortname }}.{{ firmware_backup_fqdn }}/{{ fwpubdir }}experimental/{{ metacom }}-{{ shorturlname }}/sysupgrade',
+          'http://firmware.{{ shortname }}.{{ metacom }}/{{ fwpubdir }}experimental/{{ metacom }}-{{ shorturlname }}/sysupgrade',
+          'http://{{ firmwarepubfqdn }}/experimental/{{ metacom }}-{{ shorturlname }}/sysupgrade',
+          'http://[{{ firmware_ip6 }}]/{{ fwpubdir }}experimental/{{ metacom }}-{{ shorturlname }}/sysupgrade',
         },
         good_signatures = 2,
         pubkeys = {
@@ -239,7 +239,7 @@
   },
   dns = {
     cacheentries = 1024,
-    servers = {  '2a03:2260:300e:{{ id }}00::3', '2620:fe::10', '2001:4860:4860::8844', '2001:4860:4860::8888', },
+    servers = { '2a03:2260:300e:{{ id }}00::3', '2620:fe::10', '2001:4860:4860::8844', '2001:4860:4860::8888', },
   },
 
   ssid_changer = {

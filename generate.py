@@ -39,10 +39,19 @@ if __name__ == '__main__':
 
             try:
                 name = values['name']
+                metacommunity = values['metacommunity']
                 metacom = values['metacom']
                 shortname = values['shortname']
                 shorturlname = shortname.replace("-", "_")
                 hostname_prefix = values['hostname_prefix']
+                firmware_pub_fqdn = values['firmware_pub_fqdn']
+                firmware_backup_fqdn = values['firmware_backupfqdn']
+                firmware_int_fqdn = values['firmware_int_fqn']
+                firmware_v6 = values['firmware_ip6']
+                maplink = values['maplink']
+                lat = values['lat']
+                lon = values['lon']
+                zoom = values['zoom']
                 #community = values['community']
                 seed = 'ff'+str(43131800000000000000000000000000000000000000000000000000000000+int(id))
                 v4net = values['ffv4_network']
